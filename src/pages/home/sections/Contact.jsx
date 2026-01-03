@@ -1,5 +1,5 @@
 import React from 'react'
-import Section from '../../../components/Section/INDEX.JSX'
+import Section from '@components/Section'
 
 const Contact = () => {
   return (

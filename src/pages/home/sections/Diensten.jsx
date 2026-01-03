@@ -13,7 +13,7 @@ import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import Img1 from "@assets/home1.jpeg";
 import Img2 from "@assets/hero1.jpeg";
 import Img3 from "@assets/home3.jpeg";
-import Section from "@components/Section/INDEX.JSX";
+import Section from '@components/Section'
 
 const SERVICE_ITEMS = [
   {

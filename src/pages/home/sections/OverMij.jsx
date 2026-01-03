@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Box, Container, Typography, useTheme } from "@mui/material";
-import Section from "@components/Section/INDEX.JSX";
+import Section from '@components/Section'
 
 export default function OverMij() {
 
