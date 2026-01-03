@@ -21,14 +21,12 @@ export default function OverMij() {
           heeft.
           </Section.Text>
           <Section.Text>
-          Loodgietersbedrijf MB is actief in Zwaag, Hoorn en omgeving en richt zich
-          op het oplossen van uiteenlopende loodgietersproblemen. Met jarenlange
-          ervaring sta ik klaar voor werkzaamheden aan water- en gasleidingen,
-          cv-installaties, dakgoten, zinkwerk en rioolwerk.
+          Loodgietersbedrijf Juffermans is een bedrijf dat zich richt op het oplossen van loodgietersproblemen in Haarlem, Hemstede en omgeving. 
+          Ik als ervare loodgieter heb jarenlange ervaring en kan u snel en efficiënt van dienst zijn bij problemen met water, gas, CV-installaties, dakgoten, zinkwerk en rioolwerk. 
           </Section.Text>
           <Section.Text>
-          Ik werk klantgericht en efficiënt, met één vast aanspreekpunt en een
-          sterke focus op kwaliteit en betrouwbaarheid.
+          Ik sta bekend om mijn klantgerichte aanpak en vakwerk. 
+          Bij mijn heeft u altijd één aanspreekpunt en kunt u vertrouwen op onze professionaliteit.
           </Section.Text>
 
       </Box>
