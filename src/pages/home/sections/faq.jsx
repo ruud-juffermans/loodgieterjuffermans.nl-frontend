@@ -10,7 +10,7 @@ import {
   useTheme,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import Section from "../../../components/Section/INDEX.JSX";
+import Section from "@components/Section";
 
 const FAQ_ITEMS = [
   {

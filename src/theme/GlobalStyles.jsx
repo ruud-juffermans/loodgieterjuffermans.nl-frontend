@@ -10,6 +10,7 @@ const GlobalStyles = () => {
             scrollBehavior: "smooth",
             color: "#4C5967"
           },
+          
         })}
       />
     </>
