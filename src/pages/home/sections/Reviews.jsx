@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import { Rating } from '@mui/material';
-import Section from '../../../components/Section/INDEX.JSX';
+import Section from '@components/Section';
 
 const userTestimonials = [
   {
