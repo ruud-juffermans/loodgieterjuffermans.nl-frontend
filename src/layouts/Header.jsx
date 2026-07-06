@@ -13,6 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
+import { Link as RouterLink, useLocation } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import PhoneRoundedIcon from "@mui/icons-material/PhoneRounded";
@@ -23,33 +24,23 @@ import Logo from "@assets/logo.svg";
 const PHONE_NUMBER = "0614149298";
 
 const NAV_ITEMS = [
-  { label: "Home", id: "home" },
-  { label: "Over mij", id: "over-mij" },
-  { label: "Reviews", id: "reviews" },
-  { label: "Diensten", id: "diensten" },
-  { label: "FAQ", id: "faq" },
+  { label: "Home", id: "home", to: "/" },
+  { label: "Over mij", id: "over-mij", to: "/#over-mij" },
+  { label: "Reviews", id: "reviews", to: "/#reviews" },
+  { label: "Diensten", id: "diensten", to: "/#diensten" },
+  { label: "FAQ", id: "faq", to: "/#faq" },
 ];
 
 const HEADER_HEIGHT = 88;
 
-function scrollToSection(id) {
-  const el = document.getElementById(id);
-  if (!el) return;
-
-  const y = el.getBoundingClientRect().top + window.scrollY - HEADER_HEIGHT;
-  window.scrollTo({ top: y, behavior: "smooth" });
-}
-
 export default function Header() {
   const [open, setOpen] = React.useState(false);
 
+  const { pathname } = useLocation();
   const sectionIds = NAV_ITEMS.map((n) => n.id);
-  const active = useActiveSection(sectionIds);
-
-  const onNavClick = (id) => {
-    scrollToSection(id);
-    setOpen(false);
-  };
+  const activeSection = useActiveSection(sectionIds);
+  // Section highlighting only applies on the homepage.
+  const active = pathname === "/" ? activeSection : null;
 
   return (
     <AppBar
@@ -68,12 +59,15 @@ export default function Header() {
       <Container maxWidth="xl">
         <Toolbar disableGutters sx={{ gap: 2 }}>
           <Box
-            onClick={() => onNavClick("home")}
+            component={RouterLink}
+            to="/"
+            aria-label="Naar de homepage"
             sx={{
               display: "flex",
               alignItems: "center",
               gap: 1.5,
-              cursor: "pointer",
+              textDecoration: "none",
+              color: "inherit",
               flexGrow: { xs: 1, lg: 0 },
               mr: { lg: 4 },
             }}
@@ -121,7 +115,8 @@ export default function Header() {
             {NAV_ITEMS.map((item) => (
               <Button
                 key={item.id}
-                onClick={() => onNavClick(item.id)}
+                component={RouterLink}
+                to={item.to}
                 size="small"
                 sx={{
                   color: active === item.id ? "ink.900" : "grey.600",
@@ -220,7 +215,9 @@ export default function Header() {
           {NAV_ITEMS.map((item) => (
             <ListItemButton
               key={item.id}
-              onClick={() => onNavClick(item.id)}
+              component={RouterLink}
+              to={item.to}
+              onClick={() => setOpen(false)}
               sx={{
                 borderRadius: 2,
                 mb: 0.5,

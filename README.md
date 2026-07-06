@@ -1,16 +1,42 @@
-# React + Vite
+# loodgieterjuffermans.nl
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Website van Loodgietersbedrijf Juffermans — ambachtelijk lood-, zink- en dakwerk
+in Haarlem, Heemstede en omgeving.
 
-Currently, two official plugins are available:
+Gebouwd met React 19, Vite en MUI (react-router voor routing).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Ontwikkelen
 
-## React Compiler
+```bash
+npm install
+npm run dev       # dev-server op http://localhost:5173
+npm run build     # productie-build naar dist/
+npm run preview   # lokale preview van de productie-build
+npm run lint      # ESLint
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Structuur
 
-## Expanding the ESLint configuration
+- `src/pages/home` — homepage met secties (hero, over mij, reviews, diensten, FAQ)
+- `src/pages/diensten` — detailpagina per dienst (`/diensten/:slug`)
+- `src/pages/regio` — regiopagina per plaats (`/regio/:slug`)
+- `src/data` — gedeelde inhoud (diensten, regio's) voor homepage, detailpagina's en footer
+- `src/components/Seo` — per-pagina title/description/canonical/Open Graph
+- `public/` — `robots.txt`, `sitemap.xml`, favicon, OG-afbeelding, `.htaccess`
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## SEO
+
+- Statische meta tags, Open Graph en JSON-LD (`Plumber` + `FAQPage`) staan in `index.html`.
+- Per-route meta wordt client-side bijgewerkt via `src/components/Seo`.
+- Nieuwe pagina toevoegen? Voeg de URL ook toe aan `public/sitemap.xml`.
+
+## Deployment
+
+Dit is een single-page app met HTML5-routing: de server moet alle onbekende
+paden naar `index.html` rewriten, anders geven deep links (bijv.
+`/diensten/zinkwerk`) een 404.
+
+- **Apache** (shared hosting): de meegeleverde `public/.htaccess` wordt mee
+  gebuild naar `dist/` en regelt dit automatisch.
+- **Netlify**: voeg een `_redirects` toe met `/* /index.html 200`.
+- **Vercel**: voeg een `vercel.json` rewrite naar `/index.html` toe.
