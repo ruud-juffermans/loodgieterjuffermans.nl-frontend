@@ -7,24 +7,18 @@ const Layout = () => {
     return (
         <Box
             sx={{
-                backgroundColor: "#ffffff",
+                backgroundColor: "background.default",
                 position: "relative",
-                overflow: "hidden",
+                minHeight: "100vh",
+                display: "flex",
+                flexDirection: "column",
             }}
         >
-            <Box
-                aria-hidden="true"
-                sx={{
-                    position: "relative",
-                    minHeight: "100vh",
-                }}
-            >
-                <Box sx={{ position: "relative", zIndex: 2 }}>
-                    <Header />
-                    <Outlet />
-                    <Footer />
-                </Box>
+            <Header />
+            <Box component="main" sx={{ flex: 1 }}>
+                <Outlet />
             </Box>
+            <Footer />
         </Box>
     );
 };

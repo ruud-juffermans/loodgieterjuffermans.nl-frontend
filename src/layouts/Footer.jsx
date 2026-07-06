@@ -1,152 +1,206 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import Link from '@mui/material/Link';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
+import * as React from "react";
+import { Box, Button, Container, Link, Stack, Typography } from "@mui/material";
+import { alpha } from "@mui/material/styles";
+import PhoneRoundedIcon from "@mui/icons-material/PhoneRounded";
+import MailOutlineRoundedIcon from "@mui/icons-material/MailOutlineRounded";
+import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
 
-import Logo from "@assets/logo.svg"
+const PHONE_NUMBER = "0614149298";
 
-const logoStyle = {
-  width: '100px',
-  height: 'auto',
-};
+const SECTION_LINKS = [
+  { label: "Over mij", id: "over-mij" },
+  { label: "Reviews", id: "reviews" },
+  { label: "Diensten", id: "diensten" },
+  { label: "FAQ", id: "faq" },
+];
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="text.secondary" mt={1}>
-      {'Copyright © '}
-      <Link href="https://www.loodgieterjuffermans.nl/">Loodgietersbedrijf Juffermans&nbsp;</Link>
-      {new Date().getFullYear()}
-    </Typography>
-  );
+function scrollToSection(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const y = el.getBoundingClientRect().top + window.scrollY - 88;
+  window.scrollTo({ top: y, behavior: "smooth" });
 }
 
 export default function Footer() {
-  const scrollToSection = (sectionId) => {
-    const sectionElement = document.getElementById(sectionId);
-    const offset = 128;
-    if (sectionElement) {
-      const targetScroll = sectionElement.offsetTop - offset;
-      sectionElement.scrollIntoView({ behavior: 'smooth' });
-      window.scrollTo({
-        top: targetScroll,
-        behavior: 'smooth',
-      });
-    }
-  };
   return (
-    <Container
-      sx={{
-        display: 'flex',
-        flexDirection: { xs: 'column'},
-        alignItems: 'center',
-        gap: { xs: 4, sm: 8 },
-        py: { xs: 3, sm: 8 },
-        textAlign: { sm: 'left'},
-      }}
-    >
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: { xs: 'column', md: 'row' },
-          gap: { xs: '40px', md: '0px' },
-          paddingLeft: "10px",
-          width: '100%',
-        }}
-      >
-        <Box
+    <Box component="footer" sx={{ bgcolor: "ink.900", color: "ink.200" }}>
+      {/* Contact band */}
+      <Container maxWidth="lg">
+        <Stack
+          direction={{ xs: "column", md: "row" }}
+          alignItems={{ xs: "flex-start", md: "center" }}
+          justifyContent="space-between"
+          spacing={4}
           sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            width: { xs: '100%', md: '50%' },
+            py: { xs: 8, md: 10 },
+            borderBottom: `1px solid ${alpha("#FFFFFF", 0.1)}`,
           }}
         >
-        <Box>
-            <Box >
-            <img
-                src={Logo}
-                style={logoStyle}
-                alt="logo of sitemark"
-              />
-            <Typography variant="body2" color="text.primary" mt={2} fontWeight={300}>
-                Loodgietersbedrijf Juffermans
-              </Typography>
-            </Box>
-            <Stack direction="row" spacing={1} useFlexGap>
-            <ul>
-                <li><a style={{color: "#0e5d8b"}} href="tel:0614149298">0614149298</a></li>
-                <li><a style={{color: "#0e5d8b"}} href="mailto:info@loodgieterjuffermans.nl">info@loodgieterjuffermans.nl</a></li>
-              </ul>
+          <Box>
+            <Typography variant="overline" sx={{ color: "copper.300" }}>
+              Direct contact
+            </Typography>
+            <Typography variant="h3" sx={{ color: "common.white", mt: 1 }}>
+              Lekkage of ander loodgieterswerk?
+            </Typography>
+            <Typography sx={{ color: "ink.200", mt: 1.5, maxWidth: 480 }}>
+              Bel gerust voor advies of een vrijblijvende offerte — u spreekt
+              altijd direct met de vakman zelf.
+            </Typography>
+          </Box>
+          <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
+            <Button
+              component="a"
+              href={`tel:${PHONE_NUMBER}`}
+              variant="contained"
+              color="secondary"
+              size="large"
+              startIcon={<PhoneRoundedIcon />}
+            >
+              06 14 14 92 98
+            </Button>
+            <Button
+              component="a"
+              href="mailto:info@loodgieterjuffermans.nl"
+              variant="outlined"
+              size="large"
+              startIcon={<MailOutlineRoundedIcon />}
+              sx={{
+                color: "common.white",
+                borderColor: alpha("#FFFFFF", 0.35),
+                "&:hover": {
+                  borderColor: "common.white",
+                  backgroundColor: alpha("#FFFFFF", 0.08),
+                },
+              }}
+            >
+              E-mail
+            </Button>
+          </Stack>
+        </Stack>
+
+        {/* Link columns */}
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr", md: "2fr 1fr 1fr" },
+            gap: { xs: 5, md: 8 },
+            py: { xs: 6, md: 8 },
+          }}
+        >
+          <Box>
+            <Typography
+              sx={{
+                fontFamily: '"Fraunces", Georgia, serif',
+                fontSize: "1.5rem",
+                color: "common.white",
+              }}
+            >
+              Juffermans
+            </Typography>
+            <Typography
+              variant="overline"
+              sx={{ color: "copper.300", display: "block", mb: 2 }}
+            >
+              Loodgietersbedrijf
+            </Typography>
+            <Typography variant="body2" sx={{ color: "ink.300", maxWidth: 320 }}>
+              Ambachtelijk lood-, zink- en dakwerk. Waterdicht de beste, al
+              generaties lang.
+            </Typography>
+          </Box>
+
+          <Box>
+            <Typography
+              variant="caption"
+              sx={{
+                color: "ink.300",
+                textTransform: "uppercase",
+                letterSpacing: "0.16em",
+                display: "block",
+                mb: 2,
+              }}
+            >
+              Secties
+            </Typography>
+            <Stack spacing={1.25}>
+              {SECTION_LINKS.map((l) => (
+                <Link
+                  key={l.id}
+                  onClick={() => scrollToSection(l.id)}
+                  sx={{
+                    color: "ink.200",
+                    fontWeight: 400,
+                    "&:hover": { color: "copper.300" },
+                  }}
+                >
+                  {l.label}
+                </Link>
+              ))}
+            </Stack>
+          </Box>
+
+          <Box>
+            <Typography
+              variant="caption"
+              sx={{
+                color: "ink.300",
+                textTransform: "uppercase",
+                letterSpacing: "0.16em",
+                display: "block",
+                mb: 2,
+              }}
+            >
+              Contact
+            </Typography>
+            <Stack spacing={1.5}>
+              <Stack direction="row" spacing={1.5} alignItems="center">
+                <PhoneRoundedIcon sx={{ fontSize: 18, color: "copper.300" }} />
+                <Link
+                  href={`tel:${PHONE_NUMBER}`}
+                  sx={{ color: "ink.200", fontWeight: 400, "&:hover": { color: "copper.300" } }}
+                >
+                  06 14 14 92 98
+                </Link>
+              </Stack>
+              <Stack direction="row" spacing={1.5} alignItems="center">
+                <MailOutlineRoundedIcon sx={{ fontSize: 18, color: "copper.300" }} />
+                <Link
+                  href="mailto:info@loodgieterjuffermans.nl"
+                  sx={{ color: "ink.200", fontWeight: 400, "&:hover": { color: "copper.300" } }}
+                >
+                  info@loodgieterjuffermans.nl
+                </Link>
+              </Stack>
+              <Stack direction="row" spacing={1.5} alignItems="center">
+                <PlaceOutlinedIcon sx={{ fontSize: 18, color: "copper.300" }} />
+                <Typography variant="body2" sx={{ color: "ink.200" }}>
+                  Haarlem, Heemstede e.o.
+                </Typography>
+              </Stack>
             </Stack>
           </Box>
         </Box>
-        <Box sx={{
-            width: { xs: '100%', md: '50%' },
-            }}>
+
+        {/* Bottom bar */}
         <Box
           sx={{
-            display: { xs: 'inline-flex' },
-            flexDirection: 'column',
-            width: "50%",
-            gap: 0.5,
+            py: 3,
+            borderTop: `1px solid ${alpha("#FFFFFF", 0.1)}`,
           }}
-          >
-          <Typography variant="body2" fontWeight={500}>
-            Secties
+        >
+          <Typography variant="caption" sx={{ color: "ink.300" }}>
+            © {new Date().getFullYear()}{" "}
+            <Link
+              href="https://www.loodgieterjuffermans.nl/"
+              sx={{ color: "ink.200", "&:hover": { color: "copper.300" } }}
+            >
+              Loodgietersbedrijf Juffermans
+            </Link>
+            . Alle rechten voorbehouden.
           </Typography>
-          <Link onClick={() => scrollToSection('over-mij')} color="text.secondary" >
-            Over mij
-          </Link>
-          <Link onClick={() => scrollToSection('diensten')}  color="text.secondary">
-            Diensten
-          </Link>
-          <Link color="text.secondary" onClick={() => scrollToSection('reviews')} >
-            Reviews
-          </Link>
-          <Link color="text.secondary" onClick={() => scrollToSection('faq')} >
-            FAQ
-          </Link>
         </Box>
-        <Box
-          sx={{
-            width: "50%",
-            display: { xs: 'inline-flex' },
-            flexDirection: 'column',
-            gap: 0.5,
-          }}
-          >
-          <Typography variant="body2" fontWeight={600}>
-            Paginas
-          </Typography>
-          <Link color="text.secondary" >
-            Fotogalerij
-          </Link>
-          <Link color="text.secondary" >
-            Diensten
-          </Link>
-          <Link color="text.secondary" >
-            Regios
-          </Link>
-        </Box>
-          </Box>
-
-      </Box>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          pt: { xs: 2},
-          width: '100%',
-          borderTop: '1px solid',
-          borderColor: 'divider',
-        }}
-      >
-        <div>
-
-          <Copyright />
-        </div>
-      </Box>
-    </Container>
+      </Container>
+    </Box>
   );
 }
