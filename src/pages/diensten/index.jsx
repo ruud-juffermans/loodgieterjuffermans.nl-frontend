@@ -3,40 +3,57 @@ import { Link as RouterLink, useParams } from "react-router-dom";
 import { Box, Button, Link, Stack, Typography } from "@mui/material";
 import PhoneRoundedIcon from "@mui/icons-material/PhoneRounded";
 import MailOutlineRoundedIcon from "@mui/icons-material/MailOutlineRounded";
+import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
+import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
 import Section from "@components/Section";
 import Seo from "@components/Seo";
 import NotFound from "@pages/not-found";
-import { REGIONS, getRegionBySlug } from "@data/regions";
-import { SERVICES } from "@data/services";
-
-import regioImage from "@assets/hero3.jpeg";
+import { SERVICES, getServiceBySlug } from "@data/services";
 
 const PHONE_NUMBER = "0614149298";
 const HEADER_HEIGHT = 88;
 
-export default function RegioPage() {
+export default function DienstPage() {
   const { slug } = useParams();
-  const region = getRegionBySlug(slug);
+  const service = getServiceBySlug(slug);
 
-  if (!region) {
+  if (!service) {
     return <NotFound />;
   }
 
-  const otherRegions = REGIONS.filter((r) => r.slug !== region.slug);
+  const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
 
   return (
     <Box sx={{ pt: `${HEADER_HEIGHT}px` }}>
       <Seo
-        title={region.metaTitle}
-        description={region.metaDescription}
-        path={`/regio/${region.slug}`}
+        title={service.metaTitle}
+        description={service.metaDescription}
+        path={`/diensten/${service.slug}`}
       />
 
       <Section.Container tone="paper">
-        <Section.Eyebrow>Werkgebied</Section.Eyebrow>
+        <Link
+          component={RouterLink}
+          to="/#diensten"
+          variant="body2"
+          sx={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 0.5,
+            color: "copper.600",
+            fontWeight: 600,
+            mb: 3,
+            "& > svg": { fontSize: 18 },
+          }}
+        >
+          <ArrowBackRoundedIcon />
+          Alle diensten
+        </Link>
+
+        <Section.Eyebrow>Dienst</Section.Eyebrow>
         <Typography variant="h2" component="h1" sx={{ color: "text.primary", mb: 3 }}>
-          Loodgieter in {region.name}
+          {service.title}
         </Typography>
 
         <Box
@@ -48,32 +65,23 @@ export default function RegioPage() {
           }}
         >
           <Box sx={{ flex: 1 }}>
-            {region.intro.map((paragraph) => (
+            {service.intro.map((paragraph) => (
               <Section.Text key={paragraph}>{paragraph}</Section.Text>
             ))}
 
             <Typography variant="h4" sx={{ mt: 4, mb: 2 }}>
-              Diensten in {region.name}
+              {service.tasksTitle}
             </Typography>
             <Stack spacing={1.5}>
-              {SERVICES.map((service) => (
-                <Link
-                  key={service.slug}
-                  component={RouterLink}
-                  to={`/diensten/${service.slug}`}
-                  sx={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 0.5,
-                    fontWeight: 600,
-                    color: "copper.600",
-                    "& > svg": { transition: "transform 150ms ease", fontSize: 18 },
-                    "&:hover > svg": { transform: "translateX(3px)" },
-                  }}
-                >
-                  {service.title}
-                  <ArrowForwardRoundedIcon />
-                </Link>
+              {service.tasks.map((task) => (
+                <Stack key={task} direction="row" spacing={1.5} alignItems="center">
+                  <CheckCircleOutlineRoundedIcon
+                    sx={{ color: "copper.500", fontSize: 22 }}
+                  />
+                  <Typography sx={{ color: "text.primary", fontWeight: 500 }}>
+                    {task}
+                  </Typography>
+                </Stack>
               ))}
             </Stack>
 
@@ -107,8 +115,8 @@ export default function RegioPage() {
           <Box sx={{ width: { xs: "100%", md: "42%" }, flexShrink: 0 }}>
             <Box
               component="img"
-              src={regioImage}
-              alt={`Lood-, zink- en dakwerk in ${region.name}`}
+              src={service.detailImage}
+              alt={service.imageAlt}
               loading="lazy"
               decoding="async"
               sx={{
@@ -126,14 +134,17 @@ export default function RegioPage() {
       </Section.Container>
 
       <Section.Container tone="light" sx={{ borderTop: 1, borderColor: "divider" }}>
-        <Section.Eyebrow>Werkgebied</Section.Eyebrow>
-        <Section.Heading>Ook actief in</Section.Heading>
-        <Stack direction={{ xs: "column", sm: "row" }} spacing={{ xs: 2, sm: 6 }}>
-          {otherRegions.map((other) => (
+        <Section.Eyebrow>Meer diensten</Section.Eyebrow>
+        <Section.Heading>Ook interessant voor u</Section.Heading>
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          spacing={{ xs: 2, sm: 6 }}
+        >
+          {otherServices.map((other) => (
             <Link
               key={other.slug}
               component={RouterLink}
-              to={`/regio/${other.slug}`}
+              to={`/diensten/${other.slug}`}
               sx={{
                 display: "inline-flex",
                 alignItems: "center",
@@ -144,7 +155,7 @@ export default function RegioPage() {
                 "&:hover > svg": { transform: "translateX(3px)" },
               }}
             >
-              {other.name}
+              {other.title}
               <ArrowForwardRoundedIcon />
             </Link>
           ))}

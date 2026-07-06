@@ -49,6 +49,8 @@ export default function OverMij() {
             component="img"
             src={portretImage}
             alt="Loodgieter Juffermans aan het werk"
+            loading="lazy"
+            decoding="async"
             sx={{
               position: "relative",
               width: "100%",
