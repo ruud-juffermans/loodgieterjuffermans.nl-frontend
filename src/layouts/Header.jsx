@@ -11,36 +11,36 @@ import {
   ListItemText,
   Toolbar,
   Typography,
-  useMediaQuery,
-  useTheme,
 } from "@mui/material";
+import { alpha } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
+import PhoneRoundedIcon from "@mui/icons-material/PhoneRounded";
 import useActiveSection from "@hooks/useActiveSection";
 
-import Logo from "@assets/logo.svg"
+import Logo from "@assets/logo.svg";
+
+const PHONE_NUMBER = "0614149298";
 
 const NAV_ITEMS = [
   { label: "Home", id: "home" },
-  { label: "Over Mij", id: "over-mij" },
+  { label: "Over mij", id: "over-mij" },
   { label: "Reviews", id: "reviews" },
   { label: "Diensten", id: "diensten" },
-  { label: "FAQ", id: "faq" }
+  { label: "FAQ", id: "faq" },
 ];
+
+const HEADER_HEIGHT = 88;
 
 function scrollToSection(id) {
   const el = document.getElementById(id);
   if (!el) return;
 
-  const headerOffset = 100;
-  const y = el.getBoundingClientRect().top + window.scrollY - headerOffset;
-
+  const y = el.getBoundingClientRect().top + window.scrollY - HEADER_HEIGHT;
   window.scrollTo({ top: y, behavior: "smooth" });
 }
 
 export default function Header() {
-  const theme = useTheme()
-  const isMobile = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const [open, setOpen] = React.useState(false);
 
   const sectionIds = NAV_ITEMS.map((n) => n.id);
@@ -56,74 +56,129 @@ export default function Header() {
       position="fixed"
       elevation={0}
       sx={{
-        boxShadow: 0,
-        bgcolor: 'rgba(255, 255, 255, 0.8)',
-        backdropFilter: 'blur(24px)',
-        height: '100px',
-        borderBottom: "1px solid #2222221f",
-        display: "flex",
-        justifyContent: "center"
+        height: HEADER_HEIGHT,
+        justifyContent: "center",
+        bgcolor: alpha("#FFFFFF", 0.85),
+        backdropFilter: "blur(20px)",
+        WebkitBackdropFilter: "blur(20px)",
+        borderBottom: (theme) => `1px solid ${alpha(theme.palette.ink[900], 0.08)}`,
+        color: "text.primary",
       }}
     >
       <Container maxWidth="xl">
-        <Toolbar disableGutters>
+        <Toolbar disableGutters sx={{ gap: 2 }}>
           <Box
+            onClick={() => onNavClick("home")}
             sx={{
-              flexGrow: 1,
-              display: 'flex',
-              alignItems: 'center',
-              pl: '10px',
+              display: "flex",
+              alignItems: "center",
+              gap: 1.5,
+              cursor: "pointer",
+              flexGrow: { xs: 1, lg: 0 },
+              mr: { lg: 4 },
             }}
           >
             <img
               src={Logo}
-              style={{
-                height: '70px',
-                marginRight: '20px',
-                cursor: 'pointer',
-              }}
-              alt="logo of sitemark"
+              style={{ height: 52 }}
+              alt="Logo Loodgietersbedrijf Juffermans"
             />
-
+            <Box sx={{ display: { xs: "none", sm: "block" } }}>
+              <Typography
+                sx={{
+                  fontFamily: '"Fraunces", Georgia, serif',
+                  fontSize: "1.2rem",
+                  fontWeight: 600,
+                  lineHeight: 1.1,
+                  color: "ink.800",
+                }}
+              >
+                Juffermans
+              </Typography>
+              <Typography
+                sx={{
+                  fontSize: "0.7rem",
+                  letterSpacing: "0.18em",
+                  textTransform: "uppercase",
+                  color: "copper.600",
+                  fontWeight: 600,
+                }}
+              >
+                Loodgietersbedrijf
+              </Typography>
+            </Box>
           </Box>
 
-          {/* <Box sx={{ flex: 1 }} /> */}
-
           {/* Desktop menu */}
-          {!isMobile && (
-            <Box sx={{ display: "flex", gap: 1 }}>
-              {NAV_ITEMS.map((item) => (
-                <Button
-                  key={item.id}
-                  onClick={() => onNavClick(item.id)}
-                  sx={{
-                    color: "black",
-                    opacity: active === item.id ? 1 : 0.78,
-                    borderRadius: 999,
-                    px: 2,
-                    fontSize: "20px",
-                    transition: "opacity 150ms ease",
-                    ...(active === item.id && {
-                      backgroundColor: "rgba(255,255,255,0.10)",
-                    }),
-                  }}
-                >
-                  {item.label}
-                </Button>
-              ))}
-            </Box>
-          )}
+          <Box
+            sx={{
+              display: { xs: "none", lg: "flex" },
+              gap: 0.5,
+              flexGrow: 1,
+              justifyContent: "center",
+            }}
+          >
+            {NAV_ITEMS.map((item) => (
+              <Button
+                key={item.id}
+                onClick={() => onNavClick(item.id)}
+                size="small"
+                sx={{
+                  color: active === item.id ? "ink.900" : "grey.600",
+                  fontSize: "0.8125rem",
+                  fontWeight: 600,
+                  letterSpacing: "0.12em",
+                  textTransform: "uppercase",
+                  px: 2,
+                  position: "relative",
+                  "&::after": {
+                    content: '""',
+                    position: "absolute",
+                    left: "50%",
+                    bottom: 2,
+                    transform: "translateX(-50%)",
+                    width: active === item.id ? 20 : 0,
+                    height: 2,
+                    borderRadius: 1,
+                    bgcolor: "copper.500",
+                    transition: "width 200ms ease",
+                  },
+                  "&:hover": {
+                    color: "ink.900",
+                    backgroundColor: "transparent",
+                    "&::after": { width: 20 },
+                  },
+                }}
+              >
+                {item.label}
+              </Button>
+            ))}
+          </Box>
+
+          {/* Desktop call-to-action */}
+          <Button
+            component="a"
+            href={`tel:${PHONE_NUMBER}`}
+            variant="contained"
+            color="secondary"
+            startIcon={<PhoneRoundedIcon />}
+            sx={{
+              display: { xs: "none", lg: "inline-flex" },
+              px: 3,
+              py: 1.25,
+            }}
+          >
+            06 14 14 92 98
+          </Button>
 
           {/* Mobile hamburger */}
-          {isMobile && (
-            <IconButton
-              aria-label="Open menu"
-              onClick={() => setOpen(true)}
-              sx={{ color: "#3d3d3d" }}
-            >
-              <MenuIcon sx={{ fontSize: 40 }} />
-            </IconButton>
-          )}
+          <IconButton
+            aria-label="Open menu"
+            onClick={() => setOpen(true)}
+            sx={{ display: { xs: "inline-flex", lg: "none" }, color: "ink.800" }}
+          >
+            <MenuIcon sx={{ fontSize: 32 }} />
+          </IconButton>
         </Toolbar>
       </Container>
 
@@ -134,18 +189,29 @@ export default function Header() {
         onClose={() => setOpen(false)}
         PaperProps={{
           sx: {
-            width: 300,
-            backgroundColor: "#141414",
-            color: "white",
+            width: 320,
+            bgcolor: "ink.800",
+            color: "common.white",
+            p: 1,
           },
         }}
       >
         <Box sx={{ display: "flex", alignItems: "center", p: 2 }}>
-          <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
+          <Typography
+            sx={{
+              fontFamily: '"Fraunces", Georgia, serif',
+              fontSize: "1.25rem",
+              fontWeight: 500,
+            }}
+          >
             Menu
           </Typography>
           <Box sx={{ flex: 1 }} />
-          <IconButton aria-label="Close menu" onClick={() => setOpen(false)} sx={{ color: "white" }}>
+          <IconButton
+            aria-label="Close menu"
+            onClick={() => setOpen(false)}
+            sx={{ color: "common.white" }}
+          >
             <CloseIcon />
           </IconButton>
         </Box>
@@ -157,16 +223,39 @@ export default function Header() {
               onClick={() => onNavClick(item.id)}
               sx={{
                 borderRadius: 2,
-                mx: 1,
+                mb: 0.5,
                 ...(active === item.id && {
-                  backgroundColor: "rgba(255,255,255,0.10)",
+                  backgroundColor: alpha("#FFFFFF", 0.08),
                 }),
               }}
             >
-              <ListItemText primary={item.label} />
+              <ListItemText
+                primary={item.label}
+                primaryTypographyProps={{
+                  sx: {
+                    letterSpacing: "0.1em",
+                    textTransform: "uppercase",
+                    fontSize: "0.875rem",
+                    fontWeight: 600,
+                  },
+                }}
+              />
             </ListItemButton>
           ))}
         </List>
+
+        <Box sx={{ mt: "auto", p: 2 }}>
+          <Button
+            component="a"
+            href={`tel:${PHONE_NUMBER}`}
+            variant="contained"
+            color="secondary"
+            fullWidth
+            startIcon={<PhoneRoundedIcon />}
+          >
+            06 14 14 92 98
+          </Button>
+        </Box>
       </Drawer>
     </AppBar>
   );
