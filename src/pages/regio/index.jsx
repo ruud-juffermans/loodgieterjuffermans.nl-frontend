@@ -6,6 +6,7 @@ import MailOutlineRoundedIcon from "@mui/icons-material/MailOutlineRounded";
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
 import Section from "@components/Section";
 import Seo from "@components/Seo";
+import Reveal from "@components/Reveal";
 import NotFound from "@pages/not-found";
 import { REGIONS, getRegionBySlug } from "@data/regions";
 import { SERVICES } from "@data/services";
@@ -34,6 +35,7 @@ export default function RegioPage() {
       />
 
       <Section.Container tone="paper">
+        <Reveal>
         <Section.Eyebrow>Werkgebied</Section.Eyebrow>
         <Typography variant="h2" component="h1" sx={{ color: "text.primary", mb: 3 }}>
           Loodgieter in {region.name}
@@ -66,7 +68,7 @@ export default function RegioPage() {
                     alignItems: "center",
                     gap: 0.5,
                     fontWeight: 600,
-                    color: "copper.600",
+                    color: "accent.700",
                     "& > svg": { transition: "transform 150ms ease", fontSize: 18 },
                     "&:hover > svg": { transform: "translateX(3px)" },
                   }}
@@ -123,6 +125,7 @@ export default function RegioPage() {
             />
           </Box>
         </Box>
+        </Reveal>
       </Section.Container>
 
       <Section.Container tone="light" sx={{ borderTop: 1, borderColor: "divider" }}>
@@ -139,7 +142,7 @@ export default function RegioPage() {
                 alignItems: "center",
                 gap: 0.5,
                 fontWeight: 600,
-                color: "copper.600",
+                color: "accent.700",
                 "& > svg": { transition: "transform 150ms ease", fontSize: 18 },
                 "&:hover > svg": { transform: "translateX(3px)" },
               }}

@@ -4,6 +4,7 @@ import { alpha } from "@mui/material/styles";
 import { Link as RouterLink } from "react-router-dom";
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
 import Section from "@components/Section";
+import Reveal from "@components/Reveal";
 import { SERVICES } from "@data/services";
 
 function ReadMoreLink({ to, title }) {
@@ -18,7 +19,7 @@ function ReadMoreLink({ to, title }) {
         display: "inline-flex",
         alignItems: "center",
         gap: 0.5,
-        color: "copper.600",
+        color: "accent.700",
         "& > svg": { transition: "transform 150ms ease", fontSize: 18 },
         "&:hover > svg": { transform: "translateX(3px)" },
       }}
@@ -36,14 +37,17 @@ export default function Diensten() {
 
   return (
     <Section.Container id="diensten" tone="light">
-      <Section.Eyebrow>Diensten</Section.Eyebrow>
-      <Section.Heading>Waar ik u mee van dienst kan zijn</Section.Heading>
-      <Section.Subheading>
-        Hieronder vindt u enkele van mijn gespecialiseerde diensten. Voor een
-        compleet overzicht sta ik u graag persoonlijk te woord.
-      </Section.Subheading>
+      <Reveal>
+        <Section.Eyebrow>Diensten</Section.Eyebrow>
+        <Section.Heading>Waar ik u mee van dienst kan zijn</Section.Heading>
+        <Section.Subheading>
+          Hieronder vindt u enkele van mijn gespecialiseerde diensten. Voor een
+          compleet overzicht sta ik u graag persoonlijk te woord.
+        </Section.Subheading>
+      </Reveal>
 
-      <Box
+      <Reveal
+        delay={150}
         sx={{
           display: "flex",
           flexDirection: { xs: "column-reverse", md: "row" },
@@ -74,13 +78,13 @@ export default function Diensten() {
                   py: 3.5,
                   px: { xs: 2, md: 3 },
                   borderLeft: "3px solid",
-                  borderLeftColor: isActive ? "copper.500" : "transparent",
-                  backgroundColor: isActive
-                    ? alpha(theme.palette.copper[100], 0.35)
+                  borderLeftColor: isActive ? "accent.500" : "transparent",
+                  background: isActive
+                    ? `linear-gradient(90deg, ${alpha(theme.palette.accent[100], 0.6)} 0%, transparent 85%)`
                     : "transparent",
-                  transition: "background-color 200ms ease, border-color 200ms ease",
+                  transition: "background 200ms ease, border-color 200ms ease",
                   "&:hover": {
-                    backgroundColor: alpha(theme.palette.copper[100], 0.35),
+                    background: `linear-gradient(90deg, ${alpha(theme.palette.accent[100], 0.6)} 0%, transparent 85%)`,
                   },
                 })}
               >
@@ -89,7 +93,7 @@ export default function Diensten() {
                     sx={{
                       fontFamily: '"Fraunces", Georgia, serif',
                       fontSize: "1.125rem",
-                      color: isActive ? "copper.600" : "grey.400",
+                      color: isActive ? "accent.600" : "grey.400",
                       minWidth: 32,
                       transition: "color 200ms ease",
                     }}
@@ -139,7 +143,7 @@ export default function Diensten() {
             }}
           />
         </Box>
-      </Box>
+      </Reveal>
     </Section.Container>
   );
 }

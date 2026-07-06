@@ -8,6 +8,7 @@ import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
 import Section from "@components/Section";
 import Seo from "@components/Seo";
+import Reveal from "@components/Reveal";
 import NotFound from "@pages/not-found";
 import { SERVICES, getServiceBySlug } from "@data/services";
 
@@ -33,6 +34,7 @@ export default function DienstPage() {
       />
 
       <Section.Container tone="paper">
+        <Reveal>
         <Link
           component={RouterLink}
           to="/#diensten"
@@ -41,7 +43,7 @@ export default function DienstPage() {
             display: "inline-flex",
             alignItems: "center",
             gap: 0.5,
-            color: "copper.600",
+            color: "accent.700",
             fontWeight: 600,
             mb: 3,
             "& > svg": { fontSize: 18 },
@@ -76,7 +78,7 @@ export default function DienstPage() {
               {service.tasks.map((task) => (
                 <Stack key={task} direction="row" spacing={1.5} alignItems="center">
                   <CheckCircleOutlineRoundedIcon
-                    sx={{ color: "copper.500", fontSize: 22 }}
+                    sx={{ color: "accent.500", fontSize: 22 }}
                   />
                   <Typography sx={{ color: "text.primary", fontWeight: 500 }}>
                     {task}
@@ -131,6 +133,7 @@ export default function DienstPage() {
             />
           </Box>
         </Box>
+        </Reveal>
       </Section.Container>
 
       <Section.Container tone="light" sx={{ borderTop: 1, borderColor: "divider" }}>
@@ -150,7 +153,7 @@ export default function DienstPage() {
                 alignItems: "center",
                 gap: 0.5,
                 fontWeight: 600,
-                color: "copper.600",
+                color: "accent.700",
                 "& > svg": { transition: "transform 150ms ease", fontSize: 18 },
                 "&:hover > svg": { transform: "translateX(3px)" },
               }}

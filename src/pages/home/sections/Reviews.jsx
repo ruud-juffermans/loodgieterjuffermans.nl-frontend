@@ -3,6 +3,7 @@ import { Avatar, Box, Rating, Stack, Typography } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import FormatQuoteRoundedIcon from "@mui/icons-material/FormatQuoteRounded";
 import Section from "@components/Section";
+import Reveal from "@components/Reveal";
 
 const TESTIMONIALS = [
   {
@@ -25,7 +26,7 @@ const TESTIMONIALS = [
 export default function Reviews() {
   return (
     <Section.Container id="reviews" tone="dark">
-      <Box sx={{ textAlign: "center" }}>
+      <Reveal sx={{ textAlign: "center" }}>
         <Section.Eyebrow onDark>Reviews</Section.Eyebrow>
         <Section.Heading onDark align="center">
           Wat klanten over mij zeggen
@@ -34,9 +35,10 @@ export default function Reviews() {
           Bij mij spreken de resultaten. Lees wat klanten te zeggen hebben over
           hun ervaring met Loodgietersbedrijf Juffermans.
         </Section.Subheading>
-      </Box>
+      </Reveal>
 
-      <Box
+      <Reveal
+        delay={150}
         sx={{
           display: "grid",
           gridTemplateColumns: { xs: "1fr", md: "repeat(3, 1fr)" },
@@ -55,14 +57,14 @@ export default function Reviews() {
               backdropFilter: "blur(6px)",
               transition: "border-color 200ms ease, transform 200ms ease",
               "&:hover": {
-                borderColor: alpha(theme.palette.copper[300], 0.5),
+                borderColor: alpha(theme.palette.accent[300], 0.5),
                 transform: "translateY(-4px)",
               },
             })}
           >
             <Box>
               <FormatQuoteRoundedIcon
-                sx={{ fontSize: 40, color: "copper.300", mb: 1 }}
+                sx={{ fontSize: 40, color: "accent.300", mb: 1 }}
               />
               <Typography
                 sx={{
@@ -78,7 +80,7 @@ export default function Reviews() {
             <Stack direction="row" spacing={2} alignItems="center" sx={{ mt: 4 }}>
               <Avatar
                 sx={{
-                  bgcolor: "copper.500",
+                  bgcolor: "accent.500",
                   color: "common.white",
                   fontWeight: 600,
                 }}
@@ -96,7 +98,7 @@ export default function Reviews() {
             </Stack>
           </Stack>
         ))}
-      </Box>
+      </Reveal>
     </Section.Container>
   );
 }
