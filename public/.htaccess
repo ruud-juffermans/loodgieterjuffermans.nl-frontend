@@ -1,0 +1,7 @@
+# SPA fallback: serve index.html for all routes that are not real files,
+# so deep links like /diensten/zinkwerk work on Apache hosting.
+Options -MultiViews
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.html [L]

@@ -31,21 +31,43 @@ export default function Hero() {
         alignItems: "center",
         overflow: "hidden",
         bgcolor: "ink.900",
-        backgroundImage: `url(${heroImage})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
       }}
     >
-      {/* Ink overlay for legibility, with a warm copper glow lower-left */}
+      {/* Background photo with a slow Ken Burns zoom */}
+      <Box
+        aria-hidden="true"
+        sx={{
+          position: "absolute",
+          inset: 0,
+          backgroundImage: `url(${heroImage})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          animation: "heroZoom 26s ease-in-out infinite alternate",
+          willChange: "transform",
+        }}
+      />
+
+      {/* Ink overlay for legibility, with drifting water-blue glows */}
       <Box
         aria-hidden="true"
         sx={(theme) => ({
           position: "absolute",
           inset: 0,
           background: `
-            radial-gradient(1200px 600px at 15% 100%, ${alpha(theme.palette.copper[500], 0.25)}, transparent 60%),
             linear-gradient(180deg, ${alpha(theme.palette.ink[900], 0.82)} 0%, ${alpha(theme.palette.ink[900], 0.68)} 55%, ${alpha(theme.palette.ink[900], 0.88)} 100%)
           `,
+        })}
+      />
+      <Box
+        aria-hidden="true"
+        sx={(theme) => ({
+          position: "absolute",
+          inset: 0,
+          background: `
+            radial-gradient(1200px 600px at 15% 100%, ${alpha(theme.palette.accent[400], 0.28)}, transparent 60%),
+            radial-gradient(900px 500px at 90% 0%, ${alpha(theme.palette.brand[400], 0.18)}, transparent 60%)
+          `,
+          animation: "glowDrift 18s ease-in-out infinite",
         })}
       />
 
@@ -54,9 +76,22 @@ export default function Hero() {
           spacing={4}
           alignItems="center"
           textAlign="center"
-          sx={{ py: { xs: 16, md: 20 }, maxWidth: 860, mx: "auto" }}
+          sx={{
+            py: { xs: 16, md: 20 },
+            maxWidth: 860,
+            mx: "auto",
+            // Staggered entrance
+            "& > *": {
+              animation: "fadeUp 700ms cubic-bezier(0.22, 1, 0.36, 1) both",
+            },
+            "& > *:nth-of-type(2)": { animationDelay: "120ms" },
+            "& > *:nth-of-type(3)": { animationDelay: "240ms" },
+            "& > *:nth-of-type(4)": { animationDelay: "360ms" },
+            "& > *:nth-of-type(5)": { animationDelay: "480ms" },
+            "& > *:nth-of-type(6)": { animationDelay: "600ms" },
+          }}
         >
-          <Typography variant="overline" sx={{ color: "copper.300" }}>
+          <Typography variant="overline" sx={{ color: "accent.300" }}>
             Waterdicht de beste — Haarlem &amp; omgeving
           </Typography>
 
@@ -64,7 +99,14 @@ export default function Hero() {
             Vakwerk in lood, zink{" "}
             <Box
               component="span"
-              sx={{ fontStyle: "italic", color: "copper.200" }}
+              sx={(theme) => ({
+                fontStyle: "italic",
+                background: `linear-gradient(100deg, ${theme.palette.accent[200]} 0%, ${theme.palette.accent[400]} 100%)`,
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                color: "accent.200",
+              })}
             >
               &amp; dakbedekking
             </Box>

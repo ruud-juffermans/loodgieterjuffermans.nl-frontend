@@ -1,8 +1,9 @@
 import { Box, Typography } from "@mui/material";
+import { alpha } from "@mui/material/styles";
 
 /**
  * Section building blocks for the premium look:
- * - Eyebrow: small copper overline label above headings
+ * - Eyebrow: small accent overline label above headings
  * - Heading: serif display heading
  * - Subheading / Text: measured body copy
  * - Container: vertical rhythm + optional tone ("light" | "paper" | "dark")
@@ -13,7 +14,7 @@ const SectionEyebrow = ({ children, onDark = false }) => (
         variant="overline"
         component="p"
         sx={{
-            color: onDark ? "copper.300" : "copper.500",
+            color: onDark ? "accent.300" : "accent.600",
             mb: 2,
         }}
     >
@@ -67,8 +68,18 @@ const SectionText = ({ children, onDark = false }) => (
 
 const TONE_STYLES = {
     light: { backgroundColor: "background.default" },
-    paper: { backgroundColor: "paperTone.100" },
-    dark: { backgroundColor: "ink.800" },
+    paper: {
+        backgroundColor: "paperTone.100",
+        backgroundImage: (theme) =>
+            `linear-gradient(180deg, ${alpha(theme.palette.accent[50], 0.7)} 0%, transparent 32%)`,
+    },
+    dark: {
+        backgroundColor: "ink.800",
+        backgroundImage: (theme) => `
+            radial-gradient(1000px 500px at 85% 0%, ${alpha(theme.palette.brand[500], 0.3)}, transparent 60%),
+            radial-gradient(800px 420px at 8% 100%, ${alpha(theme.palette.accent[400], 0.14)}, transparent 60%)
+        `,
+    },
 };
 
 const SectionContainer = ({ children, tone = "light", id, sx }) => {

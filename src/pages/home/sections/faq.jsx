@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import Section from "@components/Section";
+import Reveal from "@components/Reveal";
 
 const FAQ_ITEMS = [
   {
@@ -61,16 +62,16 @@ export default function FAQ() {
           gap: { xs: 4, md: 10 },
         }}
       >
-        <Box sx={{ width: { xs: "100%", md: "38%" }, flexShrink: 0 }}>
+        <Reveal sx={{ width: { xs: "100%", md: "38%" }, flexShrink: 0 }}>
           <Section.Eyebrow>FAQ</Section.Eyebrow>
           <Section.Heading>Vaak gestelde vragen</Section.Heading>
           <Section.Subheading>
             Staat uw vraag er niet tussen? Neem gerust contact op — ik denk
             graag met u mee.
           </Section.Subheading>
-        </Box>
+        </Reveal>
 
-        <Box sx={{ flex: 1 }}>
+        <Reveal delay={150} sx={{ flex: 1 }}>
           {FAQ_ITEMS.map((item) => {
             const isOpen = expanded === item.id;
             return (
@@ -83,7 +84,7 @@ export default function FAQ() {
                   expandIcon={
                     <AddRoundedIcon
                       sx={{
-                        color: "copper.500",
+                        color: "accent.500",
                         transition: "transform 200ms ease",
                         ...(isOpen && { transform: "rotate(45deg)" }),
                       }}
@@ -128,7 +129,7 @@ export default function FAQ() {
               </Accordion>
             );
           })}
-        </Box>
+        </Reveal>
       </Box>
     </Section.Container>
   );

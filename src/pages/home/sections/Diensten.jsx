@@ -1,54 +1,29 @@
 import * as React from "react";
 import { Box, Link, Stack, Typography } from "@mui/material";
 import { alpha } from "@mui/material/styles";
+import { Link as RouterLink } from "react-router-dom";
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
 import Section from "@components/Section";
+import Reveal from "@components/Reveal";
+import { SERVICES } from "@data/services";
 
-import Img1 from "@assets/home1.jpeg";
-import Img2 from "@assets/hero1.jpeg";
-import Img3 from "@assets/home3.jpeg";
-
-const SERVICE_ITEMS = [
-  {
-    id: "zinkwerk",
-    title: "Zinkwerk",
-    description:
-      "Met precisie en vakmanschap brengen we duurzaamheid en schoonheid samen in elk zinkwerkproject.",
-    image: Img1,
-    href: "/dienst-lood-zink",
-  },
-  {
-    id: "loodwerk",
-    title: "Loodwerk",
-    description:
-      "Vertrouw op onze deskundigheid voor nauwkeurig en betrouwbaar loodwerk dat de tand des tijds doorstaat.",
-    image: Img2,
-    href: "/dienst-lood-zink",
-  },
-  {
-    id: "dakdekken",
-    title: "Dakdekken",
-    description:
-      "Bescherm uw huis met professionele dakdekking, ontworpen voor maximale duurzaamheid en weerbestendigheid.",
-    image: Img3,
-    href: "/dienst-dakdekken",
-  },
-];
-
-function ReadMoreLink({ onClick }) {
+function ReadMoreLink({ to, title }) {
   return (
     <Link
+      component={RouterLink}
+      to={to}
       variant="body2"
       fontWeight={600}
+      aria-label={`Lees meer over ${title}`}
       sx={{
         display: "inline-flex",
         alignItems: "center",
         gap: 0.5,
-        color: "copper.600",
+        color: "accent.700",
         "& > svg": { transition: "transform 150ms ease", fontSize: 18 },
         "&:hover > svg": { transform: "translateX(3px)" },
       }}
-      onClick={onClick}
+      onClick={(e) => e.stopPropagation()}
     >
       Lees meer
       <ArrowForwardRoundedIcon />
@@ -58,18 +33,21 @@ function ReadMoreLink({ onClick }) {
 
 export default function Diensten() {
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const selected = SERVICE_ITEMS[selectedIndex];
+  const selected = SERVICES[selectedIndex];
 
   return (
     <Section.Container id="diensten" tone="light">
-      <Section.Eyebrow>Diensten</Section.Eyebrow>
-      <Section.Heading>Waar ik u mee van dienst kan zijn</Section.Heading>
-      <Section.Subheading>
-        Hieronder vindt u enkele van mijn gespecialiseerde diensten. Voor een
-        compleet overzicht sta ik u graag persoonlijk te woord.
-      </Section.Subheading>
+      <Reveal>
+        <Section.Eyebrow>Diensten</Section.Eyebrow>
+        <Section.Heading>Waar ik u mee van dienst kan zijn</Section.Heading>
+        <Section.Subheading>
+          Hieronder vindt u enkele van mijn gespecialiseerde diensten. Voor een
+          compleet overzicht sta ik u graag persoonlijk te woord.
+        </Section.Subheading>
+      </Reveal>
 
-      <Box
+      <Reveal
+        delay={150}
         sx={{
           display: "flex",
           flexDirection: { xs: "column-reverse", md: "row" },
@@ -79,25 +57,34 @@ export default function Diensten() {
       >
         {/* Service list */}
         <Stack sx={{ flex: 1 }} divider={<Box sx={{ borderBottom: 1, borderColor: "divider" }} />}>
-          {SERVICE_ITEMS.map((item, i) => {
+          {SERVICES.map((item, i) => {
             const isActive = selectedIndex === i;
 
             return (
               <Box
-                key={item.id}
+                key={item.slug}
                 onClick={() => setSelectedIndex(i)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setSelectedIndex(i);
+                  }
+                }}
+                role="button"
+                tabIndex={0}
+                aria-pressed={isActive}
                 sx={(theme) => ({
                   cursor: "pointer",
                   py: 3.5,
                   px: { xs: 2, md: 3 },
                   borderLeft: "3px solid",
-                  borderLeftColor: isActive ? "copper.500" : "transparent",
-                  backgroundColor: isActive
-                    ? alpha(theme.palette.copper[100], 0.35)
+                  borderLeftColor: isActive ? "accent.500" : "transparent",
+                  background: isActive
+                    ? `linear-gradient(90deg, ${alpha(theme.palette.accent[100], 0.6)} 0%, transparent 85%)`
                     : "transparent",
-                  transition: "background-color 200ms ease, border-color 200ms ease",
+                  transition: "background 200ms ease, border-color 200ms ease",
                   "&:hover": {
-                    backgroundColor: alpha(theme.palette.copper[100], 0.35),
+                    background: `linear-gradient(90deg, ${alpha(theme.palette.accent[100], 0.6)} 0%, transparent 85%)`,
                   },
                 })}
               >
@@ -106,7 +93,7 @@ export default function Diensten() {
                     sx={{
                       fontFamily: '"Fraunces", Georgia, serif',
                       fontSize: "1.125rem",
-                      color: isActive ? "copper.600" : "grey.400",
+                      color: isActive ? "accent.600" : "grey.400",
                       minWidth: 32,
                       transition: "color 200ms ease",
                     }}
@@ -121,9 +108,9 @@ export default function Diensten() {
                       variant="body2"
                       sx={{ color: "text.secondary", mb: 1.5, maxWidth: 480 }}
                     >
-                      {item.description}
+                      {item.shortDescription}
                     </Typography>
-                    <ReadMoreLink onClick={(e) => e.stopPropagation()} />
+                    <ReadMoreLink to={`/diensten/${item.slug}`} title={item.title} />
                   </Box>
                 </Stack>
               </Box>
@@ -141,7 +128,9 @@ export default function Diensten() {
           <Box
             component="img"
             src={selected.image}
-            alt={selected.title}
+            alt={selected.imageAlt}
+            loading="lazy"
+            decoding="async"
             sx={{
               width: "100%",
               height: "100%",
@@ -154,7 +143,7 @@ export default function Diensten() {
             }}
           />
         </Box>
-      </Box>
+      </Reveal>
     </Section.Container>
   );
 }

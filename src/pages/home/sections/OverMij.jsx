@@ -2,6 +2,7 @@ import * as React from "react";
 import { Box, Stack, Typography } from "@mui/material";
 import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
 import Section from "@components/Section";
+import Reveal from "@components/Reveal";
 
 import portretImage from "@assets/home2.jpeg";
 
@@ -15,7 +16,7 @@ const HIGHLIGHTS = [
 export default function OverMij() {
   return (
     <Section.Container id="over-mij" tone="paper">
-      <Box
+      <Reveal
         sx={{
           display: "flex",
           flexDirection: { xs: "column", md: "row" },
@@ -23,7 +24,7 @@ export default function OverMij() {
           alignItems: "center",
         }}
       >
-        {/* Image with offset copper frame */}
+        {/* Image with offset accent frame */}
         <Box
           sx={{
             position: "relative",
@@ -41,7 +42,7 @@ export default function OverMij() {
               bottom: -20,
               borderRadius: "24px",
               border: "1px solid",
-              borderColor: "copper.300",
+              borderColor: "accent.300",
               display: { xs: "none", sm: "block" },
             }}
           />
@@ -49,6 +50,8 @@ export default function OverMij() {
             component="img"
             src={portretImage}
             alt="Loodgieter Juffermans aan het werk"
+            loading="lazy"
+            decoding="async"
             sx={{
               position: "relative",
               width: "100%",
@@ -84,7 +87,7 @@ export default function OverMij() {
             {HIGHLIGHTS.map((item) => (
               <Stack key={item} direction="row" spacing={1.5} alignItems="center">
                 <CheckCircleOutlineRoundedIcon
-                  sx={{ color: "copper.500", fontSize: 22 }}
+                  sx={{ color: "accent.500", fontSize: 22 }}
                 />
                 <Typography sx={{ color: "text.primary", fontWeight: 500 }}>
                   {item}
@@ -93,7 +96,7 @@ export default function OverMij() {
             ))}
           </Stack>
         </Box>
-      </Box>
+      </Reveal>
     </Section.Container>
   );
 }
