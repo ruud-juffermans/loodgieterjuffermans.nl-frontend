@@ -4,12 +4,11 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
-  Container,
-  Typography,
   Link,
-  useTheme,
+  Stack,
+  Typography,
 } from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import Section from "@components/Section";
 
 const FAQ_ITEMS = [
@@ -19,9 +18,8 @@ const FAQ_ITEMS = [
     answer:
       "U kunt telefonisch direct contact opnemen. U kunt mij ook gerust een e-mail sturen.",
     links: [
-      { type: "tel", label: "0614149298", href: "tel:0614149298" },
+      { label: "06 14 14 92 98", href: "tel:0614149298" },
       {
-        type: "email",
         label: "info@loodgieterjuffermans.nl",
         href: "mailto:info@loodgieterjuffermans.nl",
       },
@@ -48,7 +46,6 @@ const FAQ_ITEMS = [
 ];
 
 export default function FAQ() {
-  const theme = useTheme()
   const [expanded, setExpanded] = React.useState(null);
 
   const handleChange = (panelId) => (_event, isExpanded) => {
@@ -56,54 +53,82 @@ export default function FAQ() {
   };
 
   return (
-    <Section.Container
-      id="faq"
-      backgroundColor={theme.palette.primary.main}
-    >
-      <Section.Heading color={"white"}>
-        Vaak gestelde vragen
-      </Section.Heading>
+    <Section.Container id="faq" tone="paper">
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: { xs: "column", md: "row" },
+          gap: { xs: 4, md: 10 },
+        }}
+      >
+        <Box sx={{ width: { xs: "100%", md: "38%" }, flexShrink: 0 }}>
+          <Section.Eyebrow>FAQ</Section.Eyebrow>
+          <Section.Heading>Vaak gestelde vragen</Section.Heading>
+          <Section.Subheading>
+            Staat uw vraag er niet tussen? Neem gerust contact op — ik denk
+            graag met u mee.
+          </Section.Subheading>
+        </Box>
 
-      <Box sx={{ width: "100%" }}>
-        {FAQ_ITEMS.map((item) => (
-          <Accordion
-            key={item.id}
-            expanded={expanded === item.id}
-            onChange={handleChange(item.id)}
-          >
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls={`${item.id}-content`}
-              id={`${item.id}-header`}
-            >
-              <Typography component="h3" variant="subtitle2">
-                {item.question}
-              </Typography>
-            </AccordionSummary>
-
-            <AccordionDetails>
-              <Typography
-                variant="body2"
-                
-                sx={{ my: 2, maxWidth: { sm: "100%", md: "70%" } }}
+        <Box sx={{ flex: 1 }}>
+          {FAQ_ITEMS.map((item) => {
+            const isOpen = expanded === item.id;
+            return (
+              <Accordion
+                key={item.id}
+                expanded={isOpen}
+                onChange={handleChange(item.id)}
               >
-                {item.answer}
-              </Typography>
+                <AccordionSummary
+                  expandIcon={
+                    <AddRoundedIcon
+                      sx={{
+                        color: "copper.500",
+                        transition: "transform 200ms ease",
+                        ...(isOpen && { transform: "rotate(45deg)" }),
+                      }}
+                    />
+                  }
+                  aria-controls={`${item.id}-content`}
+                  id={`${item.id}-header`}
+                  sx={{
+                    "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
+                      transform: "none",
+                    },
+                  }}
+                >
+                  <Typography
+                    component="h3"
+                    sx={{
+                      fontFamily: '"Fraunces", Georgia, serif',
+                      fontSize: "1.1875rem",
+                      fontWeight: 500,
+                      color: "text.primary",
+                    }}
+                  >
+                    {item.question}
+                  </Typography>
+                </AccordionSummary>
 
-              {item.links?.length ? (
-                <Box component="ul" sx={{ m: 0, pl: 2 }}>
-                  {item.links.map((l) => (
-                    <Box component="li" key={l.href}>
-                      <Link href={l.href} underline="hover">
-                        {l.label}
-                      </Link>
-                    </Box>
-                  ))}
-                </Box>
-              ) : null}
-            </AccordionDetails>
-          </Accordion>
-        ))}
+                <AccordionDetails>
+                  <Typography sx={{ color: "text.secondary", maxWidth: 560 }}>
+                    {item.answer}
+                  </Typography>
+
+                  {item.links?.length ? (
+                    <Stack spacing={0.5} sx={{ mt: 2 }}>
+                      {item.links.map((l) => (
+                        <Link key={l.href} href={l.href}>
+                          {l.label}
+                        </Link>
+                      ))}
+                    </Stack>
+                  ) : null}
+                </AccordionDetails>
+              </Accordion>
+            );
+          })}
+        </Box>
       </Box>
     </Section.Container>
   );

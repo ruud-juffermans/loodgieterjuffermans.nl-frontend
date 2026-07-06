@@ -1,87 +1,163 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
+import Rating from "@mui/material/Rating";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import { alpha } from "@mui/material/styles";
+import PhoneRoundedIcon from "@mui/icons-material/PhoneRounded";
+import MailOutlineRoundedIcon from "@mui/icons-material/MailOutlineRounded";
+
+import heroImage from "@assets/hero1.jpeg";
 
 const PHONE_NUMBER = "0614149298";
+
+const TRUST_ITEMS = [
+  { value: "70+", label: "jaar familie-vakmanschap" },
+  { value: "1", label: "vast aanspreekpunt" },
+  { value: "Gratis", label: "offerte aan huis" },
+];
 
 export default function Hero() {
   return (
     <Box
       id="home"
+      component="section"
       sx={{
+        position: "relative",
         width: "100%",
-        backgroundImage: "linear-gradient(180deg, #67c7ff, #ffffff)",
-        backgroundSize: "100% 16%",
-        backgroundRepeat: "no-repeat",
+        minHeight: { xs: "100svh", md: "92vh" },
+        display: "flex",
+        alignItems: "center",
+        overflow: "hidden",
+        bgcolor: "ink.900",
+        backgroundImage: `url(${heroImage})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
       }}
     >
-      <Container
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          pt: { xs: 25, sm: 30, md: 40 },
-          pb: { xs: 30, sm: 20 },
-        }}
-      >
-        <Stack spacing={2} sx={{ width: { xs: "100%"} }}>
-          <Typography
-            variant="h1"
-            color="primary.main"
-            sx={{
-              textAlign: "center",
-              fontWeight: "600",
-              fontSize: "clamp(4vw, 10vw, 5rem)",
-              lineHeight: 1.05,
-              color: "black"
-            }}
-          >
-            Loodgietersbedrijf{" "}
-            <Box component="span" sx={{ color: "primary.main" }}>
-              Juffermans
+      {/* Ink overlay for legibility, with a warm copper glow lower-left */}
+      <Box
+        aria-hidden="true"
+        sx={(theme) => ({
+          position: "absolute",
+          inset: 0,
+          background: `
+            radial-gradient(1200px 600px at 15% 100%, ${alpha(theme.palette.copper[500], 0.25)}, transparent 60%),
+            linear-gradient(180deg, ${alpha(theme.palette.ink[900], 0.82)} 0%, ${alpha(theme.palette.ink[900], 0.68)} 55%, ${alpha(theme.palette.ink[900], 0.88)} 100%)
+          `,
+        })}
+      />
+
+      <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
+        <Stack
+          spacing={4}
+          alignItems="center"
+          textAlign="center"
+          sx={{ py: { xs: 16, md: 20 }, maxWidth: 860, mx: "auto" }}
+        >
+          <Typography variant="overline" sx={{ color: "copper.300" }}>
+            Waterdicht de beste — Haarlem &amp; omgeving
+          </Typography>
+
+          <Typography variant="h1" sx={{ color: "common.white" }}>
+            Vakwerk in lood, zink{" "}
+            <Box
+              component="span"
+              sx={{ fontStyle: "italic", color: "copper.200" }}
+            >
+              &amp; dakbedekking
             </Box>
           </Typography>
 
           <Typography
-            textAlign="center"
-            color="text.primary"
-            fontWeight={300}
+            sx={{
+              color: "ink.100",
+              fontSize: { xs: "1.0625rem", md: "1.1875rem" },
+              lineHeight: 1.7,
+              maxWidth: 620,
+            }}
           >
-            Waterdicht de beste
+            Loodgietersbedrijf Juffermans staat voor ambachtelijk werk dat de
+            tand des tijds doorstaat. Persoonlijk, betrouwbaar en altijd met
+            oog voor detail.
           </Typography>
 
-          <Stack direction="row" justifyContent="center">
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            spacing={2}
+            sx={{ pt: 1, width: { xs: "100%", sm: "auto" } }}
+          >
             <Button
               component="a"
               href={`tel:${PHONE_NUMBER}`}
               variant="contained"
-              color="primary"
+              color="secondary"
+              size="large"
+              startIcon={<PhoneRoundedIcon />}
+            >
+              Bel 06 14 14 92 98
+            </Button>
+            <Button
+              component="a"
+              href="mailto:info@loodgieterjuffermans.nl"
+              variant="outlined"
+              size="large"
+              startIcon={<MailOutlineRoundedIcon />}
               sx={{
-                borderRadius: 999,
-                px: 3,
-                py: 1.25,
+                color: "common.white",
+                borderColor: alpha("#FFFFFF", 0.4),
+                "&:hover": {
+                  borderColor: "common.white",
+                  backgroundColor: alpha("#FFFFFF", 0.08),
+                },
               }}
             >
-              <Typography
-                sx={{
-                  fontSize: "clamp(1rem, 4vw, 1.25rem)",
-                  fontWeight: 600,
-                  letterSpacing: 0.3,
-                }}
-              >
-                Tel. {PHONE_NUMBER}
-              </Typography>
+              Stuur een e-mail
             </Button>
           </Stack>
-          <Typography
-            textAlign="center"
-            color="text.primary"
-            fontWeight={300}
+
+          <Stack alignItems="center" spacing={0.5} sx={{ pt: 2 }}>
+            <Rating value={5} readOnly size="small" />
+            <Typography variant="caption" sx={{ color: "ink.200" }}>
+              5.0 — beoordeeld door klanten uit de regio
+            </Typography>
+          </Stack>
+
+          {/* Trust bar */}
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            spacing={{ xs: 2.5, sm: 0 }}
+            sx={{
+              mt: 4,
+              width: "100%",
+              maxWidth: 720,
+              borderTop: `1px solid ${alpha("#FFFFFF", 0.15)}`,
+              pt: 4,
+              "& > *": {
+                flex: 1,
+              },
+            }}
           >
-             Of stuur mij gerust een <a href="mailto:info@loodgieterjuffermans.nl"> mail</a>.
-          </Typography>
+            {TRUST_ITEMS.map((item) => (
+              <Stack key={item.label} spacing={0.5} alignItems="center">
+                <Typography
+                  sx={{
+                    fontFamily: '"Fraunces", Georgia, serif',
+                    fontSize: "1.75rem",
+                    fontWeight: 500,
+                    color: "common.white",
+                    lineHeight: 1,
+                  }}
+                >
+                  {item.value}
+                </Typography>
+                <Typography variant="caption" sx={{ color: "ink.200" }}>
+                  {item.label}
+                </Typography>
+              </Stack>
+            ))}
+          </Stack>
         </Stack>
       </Container>
     </Box>
