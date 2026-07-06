@@ -2,8 +2,8 @@ import { alpha } from '@mui/material/styles';
 import breakpoints from './breakpoints';
 
 // ---------------------------------------------------------------------------
-// Premium palette — deep ink navy, refined brand blue, warm copper accent.
-// The copper nods to the metals of the trade: lood, zink en koper.
+// Premium palette — deep ink navy, refined brand blue, light water-blue accent.
+// The accent picks up the light blue of the logo (#6EBDEB): stromend water.
 // ---------------------------------------------------------------------------
 
 export const ink = {
@@ -32,17 +32,17 @@ export const brand = {
   900: '#05263D',
 };
 
-export const copper = {
-  50:  '#FBF4EE',
-  100: '#F4E2D2',
-  200: '#E8C5A6',
-  300: '#D9A377',
-  400: '#C98552',
-  500: '#B76F3E',
-  600: '#9E5C32',
-  700: '#7F4828',
-  800: '#5F351E',
-  900: '#402313',
+export const accent = {
+  50:  '#F1F9FE',
+  100: '#DCF0FB',
+  200: '#BBE1F6',
+  300: '#93CFF0',
+  400: '#6EBDEB', // logo light blue
+  500: '#4BA6DC',
+  600: '#3389BC',
+  700: '#286D96',
+  800: '#1D5071',
+  900: '#13374E',
 };
 
 export const paper = {
@@ -77,9 +77,9 @@ const getDesignTokens = () => ({
       contrastText: '#FFFFFF',
     },
     secondary: {
-      light: copper[300],
-      main: copper[500],
-      dark: copper[700],
+      light: accent[300],
+      main: accent[500],
+      dark: accent[700],
       contrastText: '#FFFFFF',
     },
     warning: {
@@ -109,9 +109,10 @@ const getDesignTokens = () => ({
     action: {
       selected: alpha(brand[200], 0.16),
     },
-    // custom slots, reachable via theme.palette.ink / .copper / .paperTone
+    // custom slots, reachable via theme.palette.ink / .brand / .accent / .paperTone
     ink,
-    copper,
+    brand,
+    accent,
     paperTone: paper,
   },
   typography: {
@@ -243,7 +244,7 @@ export default function getTheme() {
             boxSizing: 'border-box',
             transition: 'all 160ms ease',
             '&:focus-visible': {
-              outline: `3px solid ${alpha(copper[400], 0.55)}`,
+              outline: `3px solid ${alpha(accent[400], 0.55)}`,
               outlineOffset: '2px',
             },
           },
@@ -280,10 +281,11 @@ export default function getTheme() {
             ...(ownerState.variant === 'contained' &&
               ownerState.color === 'secondary' && {
                 color: '#FFFFFF',
-                backgroundColor: copper[500],
+                background: `linear-gradient(135deg, ${accent[500]} 0%, ${accent[700]} 100%)`,
                 '&:hover': {
-                  backgroundColor: copper[600],
-                  boxShadow: `0 12px 32px -12px ${alpha(copper[700], 0.6)}`,
+                  background: `linear-gradient(135deg, ${accent[600]} 0%, ${accent[800]} 100%)`,
+                  boxShadow: `0 12px 32px -12px ${alpha(accent[700], 0.7)}`,
+                  transform: 'translateY(-1px)',
                 },
               }),
             ...(ownerState.variant === 'outlined' && {
@@ -342,7 +344,7 @@ export default function getTheme() {
             cursor: 'pointer',
             transition: 'color 150ms ease',
             '&:hover': {
-              color: copper[500],
+              color: accent[600],
             },
           },
         },

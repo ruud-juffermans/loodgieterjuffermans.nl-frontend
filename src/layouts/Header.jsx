@@ -94,7 +94,7 @@ export default function Header() {
                   fontSize: "0.7rem",
                   letterSpacing: "0.18em",
                   textTransform: "uppercase",
-                  color: "copper.600",
+                  color: "accent.600",
                   fontWeight: 600,
                 }}
               >
@@ -135,7 +135,7 @@ export default function Header() {
                     width: active === item.id ? 20 : 0,
                     height: 2,
                     borderRadius: 1,
-                    bgcolor: "copper.500",
+                    bgcolor: "accent.500",
                     transition: "width 200ms ease",
                   },
                   "&:hover": {
